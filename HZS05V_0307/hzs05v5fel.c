@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-
+ 
 int main () {
 
 		int pid = fork();
@@ -17,7 +17,7 @@ int main () {
 		if ( WIFEXITED(status)) {
 
 		int exit_status = WEXITSTATUS(status);
-		printf("Exit kod: %d\n, exit_status);
+		printf("Exit kod: %d\n", exit_status);
 		}
 return(0);
 
