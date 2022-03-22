@@ -1,4 +1,4 @@
-// C++ for FCFS 
+// C++ kulonbozo utemezesi algoritmusokhoz
 #include <cstdlib>
 #include <iostream>
 #include <queue>
@@ -103,6 +103,58 @@ int min_BT_index(priority_queue<process> main_queue, time_t limit)
         i++;
     }
     return index;
+}
+
+// RR algoritmus
+priority_queue<process> RR_run(priority_queue<process> ready_queue,
+                               time_t Time_Slice,
+                               queue<process>* gantt)
+{
+    priority_queue<process> completion_queue;
+    process p;
+    time_t clock = 0;
+  
+    while (!ready_queue.empty()) {
+        while (clock < ready_queue.top().AT) {
+            p.temp_BT++;
+            clock++;
+        }
+        if (p.temp_BT > 0) {
+            p.p_no = -1;
+            p.CT = clock;
+            (*gantt).push(p);
+        }
+        p = ready_queue.top();
+        ready_queue.pop();
+  
+        if (p.AT == p.start_AT)
+            p.set_RT(clock);
+  
+        while (p.BT_left > 0 && (p.temp_BT < Time_Slice
+                                 || ready_queue.empty()
+                                 || clock < ready_queue.top().AT)) {
+            p.temp_BT++;
+            p.BT_left--;
+            clock++;
+        }
+  
+        if (p.BT_left == 0) {
+            p.AT = p.start_AT;
+            p.set_CT(clock);
+            (*gantt).push(p);
+            p.temp_BT = 0;
+            completion_queue.push(p);
+        }
+        else {
+            p.AT = clock;
+            p.CT = clock;
+            (*gantt).push(p);
+            p.temp_BT = 0;
+            ready_queue.push(p);
+        }
+    }
+  
+    return completion_queue;
 }
 
 // FCFS algoritmus
@@ -413,15 +465,10 @@ int main()
 {
     // Tablak inicializasa
     priority_queue<process> ready_queue;
-    priority_queue<process> completion_queue;
-		
-    priority_queue<process> completion_queue2;
-
-    
-    queue<process> gantt;
+    priority_queue<process> completion_queue, completion_queue2, completion_queue3;
+    queue<process> gantt, gantt2, gantt3;
 
 
-    queue<process> gantt2;
 
 
     // Adatok bekerdezese	
@@ -431,6 +478,11 @@ int main()
     completion_queue = FCFS_run(ready_queue, &gantt);
 
     completion_queue2 = SJF_P_run(ready_queue, &gantt2);
+
+
+    int ms = 5;
+
+    completion_queue2 = SJF_P_run(ready_queue,ms ,&gantt3);
 
     // Tabla rajzolas fcfs
     disp(completion_queue, false);
@@ -446,6 +498,17 @@ int main()
 
     // Gantt rajzolas sjf
     disp_gantt_chart(gantt2);
+
+     cout << "\n -RR-  " 
+          << endl;
+
+    // Tabla rajzolas RR
+    disp(completion_queue3, false);
+
+    cout << "\n MS:- " << ms << endl;
+
+    // Gantt rajzolas RR
+    disp_gantt_chart(gantt3);
 
     return 0;
 }
