@@ -1,4 +1,4 @@
-// C++ implementation of the FCFS algorithm
+// C++ for FCFS 
 #include <cstdlib>
 #include <iostream>
 #include <queue>
@@ -12,7 +12,7 @@ public:
            CT = 0, TAT = 0, WT = 0, RT = 0;
     int priority = 0;
 
-    // Function for completion time
+    // Befejezesi ido
     void set_CT(time_t time)
     {
         CT = time;
@@ -20,46 +20,40 @@ public:
         set_WT();
     }
 
-    // Function for Turn Around Time
+    // Atfordulasi ido (turn around time)
     void set_TAT()
     {
         TAT = CT - start_AT;
     }
 
-    // Function for Waiting Time
+    // Varakozasi ido
     void set_WT()
     {
         WT = TAT - BT;
     }
-    // Function to set starting Arrival Time
-    // Because arrival time gets updated
-    // when you push process in ready queue again
-    // in preemptive algorithms
+    // Mivel push()-nal frissul az Erkezesi ido, ezert azt kezelni kell
     void P_set()
     {
         start_AT = AT;
         BT_left = BT;
     }
-    // Function to set Response Time
+    // Valasz ido
     void set_RT(time_t time)
     {
         RT = time - start_AT;
     }
 
-    // Overload operator '<' w.r.t arrival
-    // time because arrival time is the
-    // first priority even greater than
-    // priority of process and priority_queue
-    // pops out the greatest value first
-    // so we need to replace '<' with '>' inorder
-    // to pop out smallest value
+    // '<' Operator tulterhelese
+    // mivel az erkezesi idonek nagyobb a prioritasa 
+    // priority_queue elsonek poppolja a nagyobb erteket
+    // ezert ki kell csereni a '<' -t '>' hogy a legkisebbet poppolja
     friend bool operator<(const process& a, const process& b)
     {
         return a.AT > b.AT;
     }
 };
 
-// Function to implement FCFS algorithm
+// FCFS algoritmus
 priority_queue<process> FCFS_run(priority_queue<process> ready_queue,
                                  queue<process>* gantt)
 {
@@ -67,11 +61,10 @@ priority_queue<process> FCFS_run(priority_queue<process> ready_queue,
     process p;
     time_t clock = 0;
 
-    // Till ready queue is not empty
+    // Amig a bekert processek nem fogynak el ( a ready_queue-ban )
     while (!ready_queue.empty()) {
 
-        // While clock is less than
-        // Arrival Time
+        // Amig az eltelt ido kevesebb az erkezesi idonel
         while (clock < ready_queue.top().AT) {
             p.temp_BT++;
             clock++;
@@ -91,36 +84,35 @@ priority_queue<process> FCFS_run(priority_queue<process> ready_queue,
         }
         p.set_CT(clock);
 
-        // Update the Gantt Chart
+        // Gantt diagram frissitese
         (*gantt).push(p);
         p.temp_BT = 0;
 
-        // Update the completion time to
-        // the queue
+        // Befejezesi ido frissitese
         completion_queue.push(p);
     }
     return completion_queue;
 }
 
-// Set data on the basis of given table
-priority_queue<process> set_sample_data()
+// Processek bekerese
+priority_queue<process> set_process_data()
 {
     priority_queue<process> ready_queue;
     process temp;
 
 
 
-    int y, NOP, i;
-    printf(" Total number of process in the system: ");
+    int NOP, i;
+    printf(" Megadni kivant proccessek szamossaga: ");
     scanf("%d", &NOP);
     for(i=0; i<NOP; i++)
     {
-    printf("\n Enter the Arrival and Burst time of the Process[%d]\n", i+1);
-    printf(" Arrival time is: \t");  // Accept arrival time
+    printf("\n Adja meg az Erkezesi idot, a CPU idejet valamint a prioritast a process:[%d] -nek \n", i+1);
+    printf(" Erkezesi ido: \t");  
     scanf("%d", &temp.AT);
-    printf(" \nBurst time is: \t"); // Accept the Burst time
+    printf(" \n Cpu ido: \t"); 
     scanf("%d", &temp.BT);
-    printf(" \Process priority is: \t"); // Accept the Priority
+    printf(" \n Process prioritasa: \t"); 
     scanf("%d", &temp.priority);
     temp.p_no = i + 1;
     temp.P_set();
@@ -128,12 +120,10 @@ priority_queue<process> set_sample_data()
 
     }
 
-
-
     return ready_queue;
 }
-
-// Function to get total Waiting Time
+// Atlagok szamitasa:
+// Osszes varakozasi ido
 double get_total_WT(priority_queue<process> processes)
 {
     double total = 0;
@@ -144,7 +134,7 @@ double get_total_WT(priority_queue<process> processes)
     return total;
 }
 
-// Function to get total Turn Around Time
+// Osszes atfordulasi ido
 double get_total_TAT(priority_queue<process> processes)
 {
     double total = 0;
@@ -155,7 +145,7 @@ double get_total_TAT(priority_queue<process> processes)
     return total;
 }
 
-// Function to get total Completion Time
+// Osszes befejezesi ido
 double get_total_CT(priority_queue<process> processes)
 {
     double total = 0;
@@ -166,7 +156,7 @@ double get_total_CT(priority_queue<process> processes)
     return total;
 }
 
-// Function to get total Response Time
+// Osszes valasz ido
 double get_total_RT(priority_queue<process> processes)
 {
     double total = 0;
@@ -177,8 +167,8 @@ double get_total_RT(priority_queue<process> processes)
     return total;
 }
 
-// Function to display Completion Queue and
-// all the time
+//FCFS tabla kirajzolasa
+
 void disp(priority_queue<process> main_queue, bool high)
 {
     int i = 0, temp, size = main_queue.size();
@@ -191,9 +181,9 @@ void disp(priority_queue<process> main_queue, bool high)
         cout << "----------+" << endl;
     else
         cout << endl;
-    cout << "| Process No. | Arrival Time ";
-    cout << "| Burst Time | Completion Time ";
-    cout << "| Turnaround Time | Waiting Time | Response Time |";
+    cout << "| Process sz. | Erkezesi ido ";
+    cout << "| CPU ido | Befejezesi ido ";
+    cout << "| Atfordulasi ido | Varakozasi ido | Valasz ido |";
     if (high == true)
         cout << " Priority |" << endl;
     else
@@ -242,35 +232,35 @@ void disp(priority_queue<process> main_queue, bool high)
         cout << "----------+";
     cout << endl;
     temp1 = get_total_CT(tempq);
-    cout << "\nTotal completion time :- " << temp1
+    cout << "\nTotal Befejezesi ido :- " << temp1
          << endl;
-    cout << "Average completion time :- " << temp1 / size
+    cout << "Average Befejezesi ido :- " << temp1 / size
          << endl;
     temp1 = get_total_TAT(tempq);
-    cout << "\nTotal turnaround time :- " << temp1
+    cout << "\nTotal Atfordulasi ido :- " << temp1
          << endl;
-    cout << "Average turnaround time :- " << temp1 / size
+    cout << "Atlagos Atfordulasi ido :- " << temp1 / size
          << endl;
     temp1 = get_total_WT(tempq);
-    cout << "\nTotal waiting time :- " << temp1
+    cout << "\nTotal Varakozasi ido :- " << temp1
          << endl;
-    cout << "Average waiting time :- " << temp1 / size
+    cout << "Atlagos Varakozasi ido :- " << temp1 / size
          << endl;
     temp1 = get_total_RT(tempq);
-    cout << "\nTotal response time :- " << temp1
+    cout << "\nTotal Valasz ido :- " << temp1
          << endl;
-    cout << "Average response time :- " << temp1 / size
+    cout << "Atlagos Valasz ido :- " << temp1 / size
          << endl;
 }
 
-// Function to display Gantt Chart
+//Gantt rajzolasa
 void disp_gantt_chart(queue<process> gantt)
 {
     int temp, prev = 0;
     queue<process> spaces = gantt;
     cout << "\n\nGantt Chart (IS indicates ideal state) :- \n\n+";
 
-    // For 1st row of gantt chart
+    // 1. sor
     while (!spaces.empty()) {
         cout << string(to_string(spaces.front().p_no).length()
                            + (spaces.front().p_no != -1)
@@ -282,7 +272,7 @@ void disp_gantt_chart(queue<process> gantt)
     cout << "\n|";
     spaces = gantt;
 
-    // For process no. in 2nd row
+    // 2. sor
     while (!spaces.empty()) {
         cout << string(spaces.front().temp_BT, ' ');
         if (spaces.front().p_no == -1)
@@ -305,7 +295,7 @@ void disp_gantt_chart(queue<process> gantt)
     }
     spaces = gantt;
     cout << "\n0";
-//For 3rd row of gantt chart
+    //3. sor
     while (!spaces.empty()) {
         temp = to_string(spaces.front().CT).length();
         cout << (string(to_string(spaces.front().p_no).length()
@@ -319,24 +309,24 @@ void disp_gantt_chart(queue<process> gantt)
     cout << "\n\n";
 }
 
-// Driver Code
+
 int main()
 {
-    // Initialise Ready and Completion Queue
+    // Tablak inicializasa
     priority_queue<process> ready_queue;
     priority_queue<process> completion_queue;
 
-    // queue for Gantt Chart
+    // Adatok bekerdezese
     queue<process> gantt;
-    ready_queue = set_sample_data();
+    ready_queue = set_process_data();
 
-    // Function call for completion data
+    
     completion_queue = FCFS_run(ready_queue, &gantt);
 
-    // Display Completion Queue
+    // Tabla rajzolas
     disp(completion_queue, false);
 
-    // Display Gantt Chart
+    // Gantt rajzolas
     disp_gantt_chart(gantt);
     return 0;
 }
