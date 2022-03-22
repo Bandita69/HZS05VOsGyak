@@ -258,7 +258,7 @@ void disp_gantt_chart(queue<process> gantt)
 {
     int temp, prev = 0;
     queue<process> spaces = gantt;
-    cout << "\n\nGantt Chart (IS indicates ideal state) :- \n\n+";
+    cout << "\n\nGantt abra(IS = idle statusz) :- \n\n+";
 
     // 1. sor
     while (!spaces.empty()) {
