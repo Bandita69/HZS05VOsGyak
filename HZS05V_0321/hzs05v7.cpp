@@ -107,48 +107,29 @@ priority_queue<process> set_sample_data()
 {
     priority_queue<process> ready_queue;
     process temp;
+
+
+
+    int y, NOP;
+    float avg_wt, avg_tat;
+    printf(" Total number of process in the system: ");
+    scanf("%d", &NOP);
+    y = NOP; // Assign the number of process to variable y
+
+
+
+
+
+
+
     temp.AT = 0;
     temp.BT = 4;
     temp.priority = 2;
     temp.p_no = 1;
     temp.P_set();
     ready_queue.push(temp);
-    temp.AT = 1;
-    temp.BT = 2;
-    temp.priority = 4;
-    temp.p_no = 2;
-    temp.P_set();
-    ready_queue.push(temp);
-    temp.AT = 2;
-    temp.BT = 3;
-    temp.priority = 6;
-    temp.p_no = 3;
-    temp.P_set();
-    ready_queue.push(temp);
-    temp.AT = 3;
-    temp.BT = 5;
-    temp.priority = 10;
-    temp.p_no = 4;
-    temp.P_set();
-    ready_queue.push(temp);
-    temp.AT = 4;
-    temp.BT = 1;
-    temp.priority = 8;
-    temp.p_no = 5;
-    temp.P_set();
-    ready_queue.push(temp);
-    temp.AT = 5;
-    temp.BT = 4;
-    temp.priority = 12;
-    temp.p_no = 6;
-    temp.P_set();
-    ready_queue.push(temp);
-    temp.AT = 6;
-    temp.BT = 6;
-    temp.priority = 9;
-    temp.p_no = 7;
-    temp.P_set();
-    ready_queue.push(temp);
+
+
     return ready_queue;
 }
 
