@@ -482,7 +482,7 @@ int main()
 
     int ms = 5;
 
-    completion_queue2 = SJF_P_run(ready_queue,ms ,&gantt3);
+    completion_queue3 = RR_run(ready_queue,ms ,&gantt3);
 
     // Tabla rajzolas fcfs
     disp(completion_queue, false);
