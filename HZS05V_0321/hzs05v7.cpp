@@ -333,7 +333,7 @@ void disp(priority_queue<process> main_queue, bool high)
     temp1 = get_total_CT(tempq);
     cout << "\nTotal Befejezesi ido :- " << temp1
          << endl;
-    cout << "Average Befejezesi ido :- " << temp1 / size
+    cout << "Atlagos Befejezesi ido :- " << temp1 / size
          << endl;
     temp1 = get_total_TAT(tempq);
     cout << "\nTotal Atfordulasi ido :- " << temp1
