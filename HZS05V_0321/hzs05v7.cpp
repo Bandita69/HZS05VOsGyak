@@ -130,14 +130,6 @@ priority_queue<process> set_sample_data()
 
 
 
-
-
-
-
-
-
-
-
     return ready_queue;
 }
 
