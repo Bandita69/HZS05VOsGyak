@@ -111,23 +111,31 @@ priority_queue<process> set_sample_data()
 
 
     int y, NOP;
-    float avg_wt, avg_tat;
     printf(" Total number of process in the system: ");
     scanf("%d", &NOP);
-    y = NOP; // Assign the number of process to variable y
-
-
-
-
-
-
-
-    temp.AT = 0;
-    temp.BT = 4;
-    temp.priority = 2;
-    temp.p_no = 1;
+    for(i=0; i<NOP; i++)
+    {
+    printf("\n Enter the Arrival and Burst time of the Process[%d]\n", i+1);
+    printf(" Arrival time is: \t");  // Accept arrival time
+    scanf("%d", &temp.AT);
+    printf(" \nBurst time is: \t"); // Accept the Burst time
+    scanf("%d", &temp.BT);
+    printf(" \Process priority is: \t"); // Accept the Priority
+    scanf("%d", &temp.priority;
+    temp.p_no = i + 1;
     temp.P_set();
     ready_queue.push(temp);
+
+    }
+
+
+
+
+
+
+
+
+
 
 
     return ready_queue;
