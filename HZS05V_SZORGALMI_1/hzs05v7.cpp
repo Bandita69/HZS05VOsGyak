@@ -333,8 +333,8 @@ void disp(priority_queue<process> main_queue, bool high)
     else
         cout << endl;
     cout << "| Process sz. | Erkezesi ido ";
-    cout << "| CPU ido | Befejezesi ido ";
-    cout << "| Atfordulasi ido | Varakozasi ido | Valasz ido |";
+    cout << "| CPU ido    |  Befejezesi ido ";
+    cout << "| Atfordulasi ido | Varakoz ido  |   Valasz ido  |";
     if (high == true)
         cout << " Priority |" << endl;
     else
