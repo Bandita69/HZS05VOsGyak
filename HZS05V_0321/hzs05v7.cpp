@@ -53,6 +53,58 @@ public:
     }
 };
 
+
+process pop_index(priority_queue<process>* main_queue, int index)
+{
+    priority_queue<process> rm_index;
+    int i;
+    process p;
+    switch (index) {
+    case 0:
+        p = (*main_queue).top();
+        (*main_queue).pop();
+        break;
+    default:
+        for (i = 0; i < index; i++) {
+            rm_index.push((*main_queue).top());
+            (*main_queue).pop();
+        }
+        p = (*main_queue).top();
+        (*main_queue).pop();
+        while (!(*main_queue).empty()) {
+            rm_index.push((*main_queue).top());
+            (*main_queue).pop();
+        }
+        (*main_queue) = rm_index;
+        break;
+    }
+    return p;
+}
+time_t min_BT(priority_queue<process> main_queue, time_t clock)
+{
+    time_t min = 0;
+    while (!main_queue.empty() && main_queue.top().AT <= clock) {
+        if (min == 0 || min > main_queue.top().BT_left)
+            min = main_queue.top().BT_left;
+        main_queue.pop();
+    }
+    return min;
+}
+int min_BT_index(priority_queue<process> main_queue, time_t limit)
+{
+    int index, i = 0;
+    time_t min = 0;
+    while (!main_queue.empty() && main_queue.top().AT <= limit) {
+        if (min == 0 || main_queue.top().BT_left < min) {
+            min = main_queue.top().BT_left;
+            index = i;
+        }
+        main_queue.pop();
+        i++;
+    }
+    return index;
+}
+
 // FCFS algoritmus
 priority_queue<process> FCFS_run(priority_queue<process> ready_queue,
                                  queue<process>* gantt)
