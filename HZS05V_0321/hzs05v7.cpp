@@ -94,13 +94,60 @@ priority_queue<process> FCFS_run(priority_queue<process> ready_queue,
     return completion_queue;
 }
 
+// SJF algoritmus
+priority_queue<process> SJF_P_run(priority_queue<process> ready_queue,
+                                  queue<process>* gantt)
+{
+    priority_queue<process> completion_queue;
+    process p;
+    time_t clock = 0;
+
+  	// Amig a bekert processek nem fogynak el ( a ready_queue-ban )
+    while (!ready_queue.empty()) {
+        while (clock < ready_queue.top().AT) {
+            p.temp_BT++;
+            clock++;
+        }
+        if (p.temp_BT > 0) {
+            p.p_no = -1;
+            p.CT = clock;
+            (*gantt).push(p);
+        }
+        p = pop_index(&ready_queue, min_BT_index(ready_queue, clock));
+        if (p.AT == p.start_AT)
+            p.set_RT(clock);
+        while (p.BT_left > 0 && (ready_queue.empty()
+                                 || clock < ready_queue.top().AT
+                                 || p.BT_left <= min_BT(ready_queue, clock))) {
+            p.BT_left--;
+            p.temp_BT++;
+            clock++;
+        }
+        if (p.BT_left == 0) {
+            p.AT = p.start_AT;
+            p.set_CT(clock);
+            (*gantt).push(p);
+            p.temp_BT = 0;
+            completion_queue.push(p);
+        }
+        else {
+            p.AT = clock;
+            p.CT = clock;
+            (*gantt).push(p);
+            p.temp_BT = 0;
+            ready_queue.push(p);
+        }
+    }
+  
+    return completion_queue;
+}
+  
+
 // Processek bekerese
 priority_queue<process> set_process_data()
 {
     priority_queue<process> ready_queue;
     process temp;
-
-
 
     int NOP, i;
     printf(" Megadni kivant proccessek szamossaga: ");
@@ -315,18 +362,37 @@ int main()
     // Tablak inicializasa
     priority_queue<process> ready_queue;
     priority_queue<process> completion_queue;
+		
+    priority_queue<process> completion_queue2;
 
-    // Adatok bekerdezese
+    
     queue<process> gantt;
+
+
+    queue<process> gantt2;
+
+
+    // Adatok bekerdezese	
     ready_queue = set_process_data();
 
     
     completion_queue = FCFS_run(ready_queue, &gantt);
 
-    // Tabla rajzolas
+    completion_queue2 = SJF_P_run(ready_queue, &gantt2);
+
+    // Tabla rajzolas fcfs
     disp(completion_queue, false);
 
-    // Gantt rajzolas
+    // Gantt rajzolas fcfs
     disp_gantt_chart(gantt);
+
+    cout << endl;
+
+    // Tabla rajzolas sjf
+    disp(completion_queue2, false);
+
+    // Gantt rajzolas sjf
+    disp_gantt_chart(gantt2);
+
     return 0;
 }
