@@ -438,7 +438,8 @@ int main()
     // Gantt rajzolas fcfs
     disp_gantt_chart(gantt);
 
-    cout << endl;
+     cout << "\n -SJF-  " 
+          << endl;
 
     // Tabla rajzolas sjf
     disp(completion_queue2, false);
