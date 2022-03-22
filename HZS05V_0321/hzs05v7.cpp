@@ -110,7 +110,7 @@ priority_queue<process> set_sample_data()
 
 
 
-    int y, NOP;
+    int y, NOP, i;
     printf(" Total number of process in the system: ");
     scanf("%d", &NOP);
     for(i=0; i<NOP; i++)
@@ -121,7 +121,7 @@ priority_queue<process> set_sample_data()
     printf(" \nBurst time is: \t"); // Accept the Burst time
     scanf("%d", &temp.BT);
     printf(" \Process priority is: \t"); // Accept the Priority
-    scanf("%d", &temp.priority;
+    scanf("%d", &temp.priority);
     temp.p_no = i + 1;
     temp.P_set();
     ready_queue.push(temp);
