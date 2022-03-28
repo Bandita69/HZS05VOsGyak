@@ -317,6 +317,18 @@ double get_total_RT(priority_queue<process> processes)
     }
     return total;
 }
+//Osszes cpu ido
+double get_total_CPU(priority_queue<process> processes)
+{
+	double total = 0;
+	while (!processes.empty()) {
+		total += processes.top().BT;
+		processes.pop();
+	}
+	return total;
+
+}
+
 
 //FCFS tabla kirajzolasa
 
@@ -324,7 +336,7 @@ void disp(priority_queue<process> main_queue, bool high)
 {
     int i = 0, temp, size = main_queue.size();
     priority_queue<process> tempq = main_queue;
-    double temp1;
+    double temp1, temp2;
     cout << "+-------------+--------------";
     cout << "+------------+-----------------";
     cout << "+-----------------+--------------+---------------+";
@@ -392,16 +404,19 @@ void disp(priority_queue<process> main_queue, bool high)
          << endl;
     cout << "Atlagos Atfordulasi ido :- " << temp1 / size
          << endl;
-    temp1 = get_total_WT(tempq);
-    cout << "\nTotal Varakozasi ido :- " << temp1
+    temp2 = get_total_WT(tempq);
+    cout << "\nTotal Varakozasi ido :- " << temp2
          << endl;
-    cout << "Atlagos Varakozasi ido :- " << temp1 / size
+    cout << "Atlagos Varakozasi ido :- " << temp2 / size
          << endl;
     temp1 = get_total_RT(tempq);
     cout << "\nTotal Valasz ido :- " << temp1
          << endl;
     cout << "Atlagos Valasz ido :- " << temp1 / size
          << endl;
+    temp1 = get_total_CPU(tempq);
+    cout << "\nCpu Kihasznaltsag :- " << temp1 / (temp1 + temp2)  
+	 << endl;
 }
 
 //Gantt rajzolasa
