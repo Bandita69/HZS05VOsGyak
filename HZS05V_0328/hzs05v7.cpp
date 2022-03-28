@@ -10,6 +10,7 @@ public:
     time_t start_AT = 0, AT = 0,
            BT_left = 0, BT = 0, temp_BT = 0,
            CT = 0, TAT = 0, WT = 0, RT = 0;
+    double CS = 0; 
     int priority = 0;
 
     // Befejezesi ido
@@ -20,13 +21,13 @@ public:
         set_WT();
     }
 
-    // Atfordulasi ido (turn around time)
+    // Atfordulasi ido (turn around time) befejezesi ido - erkezesi ido
     void set_TAT()
     {
         TAT = CT - start_AT;
     }
 
-    // Varakozasi ido
+    // Varakozasi ido ( atfodulasi ido - cpu ido
     void set_WT()
     {
         WT = TAT - BT;
@@ -163,20 +164,23 @@ priority_queue<process> FCFS_run(priority_queue<process> ready_queue,
 {
     priority_queue<process> completion_queue;
     process p;
+    double tempCS = p.CS; //0.5
     time_t clock = 0;
 
     // Amig a bekert processek nem fogynak el ( a ready_queue-ban )
     while (!ready_queue.empty()) {
-
+	tempCS += tempCS;
         // Amig az eltelt ido kevesebb az erkezesi idonel
         while (clock < ready_queue.top().AT) {
             p.temp_BT++;
             clock++;
+
         }
         if (p.temp_BT > 0) {
             p.p_no = -1;
             p.CT = clock;
             (*gantt).push(p);
+	    
         }
         p = ready_queue.top();
         ready_queue.pop();
@@ -185,14 +189,16 @@ priority_queue<process> FCFS_run(priority_queue<process> ready_queue,
             p.temp_BT++;
             p.BT_left--;
             clock++;
-        }
+   	        
+ }
         p.set_CT(clock);
 
         // Gantt diagram frissitese
         (*gantt).push(p);
         p.temp_BT = 0;
 
-        // Befejezesi ido frissitese
+
+        p.CS = tempCS;
         completion_queue.push(p);
     }
     return completion_queue;
@@ -265,6 +271,7 @@ priority_queue<process> set_process_data()
     scanf("%d", &temp.BT);
     printf(" \n Process prioritasa: \t"); 
     scanf("%d", &temp.priority);
+    temp.CS = 0.5;
     temp.p_no = i + 1;
     temp.P_set();
     ready_queue.push(temp);
@@ -326,6 +333,12 @@ double get_total_CPU(priority_queue<process> processes)
 		processes.pop();
 	}
 	return total;
+
+}
+
+double get_CS(priority_queue<process> processes)
+{
+	return processes.top().CS;
 
 }
 
@@ -414,9 +427,9 @@ void disp(priority_queue<process> main_queue, bool high)
          << endl;
     cout << "Atlagos Valasz ido :- " << temp1 / size
          << endl;
-    temp1 = get_total_CPU(tempq);
+    temp1 = get_CS(tempq);
 	//EZEN MEG DOLGOZNI KELL
-    cout << "\nCpu Kihasznaltsag :- " << temp1 / ( temp1 + ((size - 1)/10) )  
+    cout << "\nCpu Kihasznaltsag :- " << temp1  
 	 << endl;
 }
 
