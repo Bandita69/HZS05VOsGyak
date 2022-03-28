@@ -415,7 +415,8 @@ void disp(priority_queue<process> main_queue, bool high)
     cout << "Atlagos Valasz ido :- " << temp1 / size
          << endl;
     temp1 = get_total_CPU(tempq);
-    cout << "\nCpu Kihasznaltsag :- " << temp1 / (temp1 + temp2)  
+	//EZEN MEG DOLGOZNI KELL
+    cout << "\nCpu Kihasznaltsag :- " << temp1 / ( temp1 + ((size - 1)/10) )  
 	 << endl;
 }
 
