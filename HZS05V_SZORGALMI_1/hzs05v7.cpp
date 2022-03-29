@@ -263,8 +263,8 @@ priority_queue<process> set_process_data()
     scanf("%d", &temp.AT);
     printf(" \n Cpu ido: \t"); 
     scanf("%d", &temp.BT);
-    printf(" \n Process prioritasa: \t"); 
-    scanf("%d", &temp.priority);
+//    printf(" \n Process prioritasa: \t"); 
+//    scanf("%d", &temp.priority);
     temp.p_no = i + 1;
     temp.P_set();
     ready_queue.push(temp);
@@ -480,7 +480,7 @@ int main()
     completion_queue2 = SJF_P_run(ready_queue, &gantt2);
 
 
-    int ms = 10;
+    int ms = 4;
 
     completion_queue3 = RR_run(ready_queue,ms ,&gantt3);
 
