@@ -12,7 +12,7 @@ public:
            BT_left = 0, BT = 0, temp_BT = 0,
            CT = 0, TAT = 0, WT = 0, RT = 0;
     int priority = 0;
-    double cs_temp = 0;
+    
 
     // Befejezesi ido
     void set_CT(time_t time)
@@ -209,7 +209,7 @@ priority_queue<process> FCFS_run(priority_queue<process> ready_queue,
         (*gantt).push(p);
         p.temp_BT = 0;
 
-        p.cs_temp = 0.1;
+        
         completion_queue.push(p);
     }
 
@@ -253,7 +253,7 @@ priority_queue<process> SJF_P_run(priority_queue<process> ready_queue,
             p.set_CT(clock);
             (*gantt).push(p);
             p.temp_BT = 0;
-            p.cs_temp = 0.1;
+            
             completion_queue.push(p);
         }
         else
@@ -343,18 +343,7 @@ double get_total_RT(priority_queue<process> processes)
     }
     return total;
 }
-// osszes cs ido
 
-double get_total_CS(priority_queue<process> processes)
-{
-    double total = 0;
-    while (!processes.empty())
-    {
-        total += processes.top().cs_temp;
-        processes.pop();
-    }
-    return total;
-}
 
 // osszes cpu ido
 
@@ -367,6 +356,12 @@ double get_total_BT(priority_queue<process> processes)
         processes.pop();
     }
     return total;
+}
+
+void write_CPU_UNITILATION(double cs_sum){
+    double total = 0;
+
+
 }
 
 // FCFS tabla kirajzolasa
@@ -456,13 +451,9 @@ void disp(priority_queue<process> main_queue, bool high)
     cout << "Atlagos Valasz ido :- " << temp1 / size
          << endl;
     temp1 = get_total_BT(tempq);
-    temp2 = get_total_CS(tempq);
     cout << "\nTotal CPU ido :- " << temp1
          << endl;
-    cout << "\nTotal CS ido :- " << temp2
-         << endl;
-    cout << "CPU kihasznaltsag :- " << temp1 / (temp1 + temp2)
-         << endl;
+
 }
 
 // Gantt rajzolasa
@@ -535,6 +526,8 @@ int main()
 
     int ms = 4;
 
+    double cs = 0.1;
+
     completion_queue3 = RR_run(ready_queue, ms, &gantt3);
 
     // Tabla rajzolas fcfs
@@ -565,6 +558,7 @@ int main()
 
     rr_cpu = gantt3;
     disp_gantt_chart(gantt3);
+
     double cs_sum = 0;
     while (!rr_cpu.empty())
     {
