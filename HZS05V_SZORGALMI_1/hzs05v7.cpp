@@ -4,12 +4,12 @@
 // INPUT: Erkezesi idok
 //        Cpu idok
 //        MS
-//        Contex Switch
+//        Kapcsolas idoigenye
 // OUTPUT: Befejezesi ido Total/Atlag
 //         Varakozasi ido Total/atlag
 //         Valasz ido Total/atlag
 //         CPU ido Total
-//         Contex Switch
+//         Kapcsolas idoigenye
 //         CPU Kihasznaltsag
 //
 #include <cstdlib>
