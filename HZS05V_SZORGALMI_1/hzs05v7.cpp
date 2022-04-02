@@ -1,4 +1,17 @@
-// C++ kulonbozo utemezesi algoritmusokhoz
+// Neptun: HZS05V
+// Timko Andras OPERACIOS RENDSZEREK SZORGALMI
+//  C++ kulonbozo utemezesi algoritmusokhoz
+// INPUT: Erkezesi idok
+//        Cpu idok
+//        MS
+//        Contex Switch
+// OUTPUT: Befejezesi ido Total/Atlag
+//         Varakozasi ido Total/atlag
+//         Valasz ido Total/atlag
+//         CPU ido Total
+//         Contex Switch
+//         CPU Kihasznaltsag
+//
 #include <cstdlib>
 #include <iostream>
 #include <queue>
@@ -293,6 +306,25 @@ priority_queue<process> set_process_data()
 
     return ready_queue;
 }
+
+double set_CS()
+{
+    double cs_given;
+    printf(" Contex Switch ido: \t");
+    scanf("%lf", &cs_given);
+
+    return cs_given;
+}
+
+int set_MS()
+{
+    int ms_given;
+    printf(" MS ido: \t");
+    scanf("%d", &ms_given);
+
+    return ms_given;
+}
+
 // Atlagok szamitasa:
 // Osszes varakozasi ido
 double get_total_WT(priority_queue<process> processes)
@@ -357,7 +389,7 @@ double get_total_BT(priority_queue<process> processes)
 
 void write_CPU_UNITILATION(double cs, queue<process> gantt_cpu, priority_queue<process> cpu_que)
 {
-    double cs_sum = 0;
+    double cs_sum = 0.0;
     double temp1;
     while (!gantt_cpu.empty())
     {
@@ -521,17 +553,19 @@ int main()
     priority_queue<process> ready_queue;
     priority_queue<process> completion_queue, completion_queue2, completion_queue3, rr_que, sjf_que, fcfs_que;
     queue<process> gantt, gantt2, gantt3, rr_cpu, sjf_cpu, fcfs_cpu;
+    int ms;
+    double cs;
 
     // Adatok bekerdezese
     ready_queue = set_process_data();
+    cs = set_CS();
+    ms = set_MS();
+
+    cout << cs << endl;
 
     completion_queue = FCFS_run(ready_queue, &gantt);
 
     completion_queue2 = SJF_P_run(ready_queue, &gantt2);
-
-    int ms = 4;
-
-    double cs = 0.1;
 
     completion_queue3 = RR_run(ready_queue, ms, &gantt3);
 
