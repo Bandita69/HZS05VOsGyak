@@ -359,7 +359,7 @@ void write_CPU_UNITILATION(double cs, queue<process> gantt_cpu, priority_queue<p
 {
     double cs_sum = 0;
     double temp1;
-    while (!rr_cpu.empty())
+    while (!gantt_cpu.empty())
     {
         cs_sum += cs;
         gantt_cpu.pop();
