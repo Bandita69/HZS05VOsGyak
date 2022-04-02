@@ -365,8 +365,6 @@ void write_CPU_UNITILATION(double cs, queue<process> gantt_cpu, priority_queue<p
         gantt_cpu.pop();
     }
 
-    double temp1;
-
     temp1 = get_total_BT(cpu_que);
     cout << "Total CS:- " << cs_sum << endl;
     cout << "CPU kihasznaltsag :- " << temp1 / (temp1 + cs_sum) << endl;
