@@ -12,7 +12,6 @@ public:
            BT_left = 0, BT = 0, temp_BT = 0,
            CT = 0, TAT = 0, WT = 0, RT = 0;
     int priority = 0;
-    
 
     // Befejezesi ido
     void set_CT(time_t time)
@@ -209,7 +208,6 @@ priority_queue<process> FCFS_run(priority_queue<process> ready_queue,
         (*gantt).push(p);
         p.temp_BT = 0;
 
-        
         completion_queue.push(p);
     }
 
@@ -253,7 +251,7 @@ priority_queue<process> SJF_P_run(priority_queue<process> ready_queue,
             p.set_CT(clock);
             (*gantt).push(p);
             p.temp_BT = 0;
-            
+
             completion_queue.push(p);
         }
         else
@@ -344,7 +342,6 @@ double get_total_RT(priority_queue<process> processes)
     return total;
 }
 
-
 // osszes cpu ido
 
 double get_total_BT(priority_queue<process> processes)
@@ -358,10 +355,21 @@ double get_total_BT(priority_queue<process> processes)
     return total;
 }
 
-void write_CPU_UNITILATION(double cs_sum){
-    double total = 0;
+void write_CPU_UNITILATION(double cs, queue<process> gantt_cpu, priority_queue<process> cpu_que)
+{
+    double cs_sum = 0;
+    double temp1;
+    while (!rr_cpu.empty())
+    {
+        cs_sum += cs;
+        gantt_cpu.pop();
+    }
 
+    double temp1;
 
+    temp1 = get_total_BT(cpu_que);
+    cout << "Total CS:- " << cs_sum << endl;
+    cout << "CPU kihasznaltsag :- " << temp1 / (temp1 + cs_sum) << endl;
 }
 
 // FCFS tabla kirajzolasa
@@ -453,7 +461,6 @@ void disp(priority_queue<process> main_queue, bool high)
     temp1 = get_total_BT(tempq);
     cout << "\nTotal CPU ido :- " << temp1
          << endl;
-
 }
 
 // Gantt rajzolasa
@@ -514,8 +521,8 @@ int main()
 {
     // Tablak inicializasa
     priority_queue<process> ready_queue;
-    priority_queue<process> completion_queue, completion_queue2, completion_queue3, rr_que;
-    queue<process> gantt, gantt2, gantt3, rr_cpu;
+    priority_queue<process> completion_queue, completion_queue2, completion_queue3, rr_que, sjf_que, fcfs_que;
+    queue<process> gantt, gantt2, gantt3, rr_cpu, sjf_cpu, fcfs_cpu;
 
     // Adatok bekerdezese
     ready_queue = set_process_data();
@@ -532,45 +539,42 @@ int main()
 
     // Tabla rajzolas fcfs
     disp(completion_queue, false);
-
+    fcfs_que = completion_queue;
+    fcfs_cpu = gantt;
     // Gantt rajzolas fcfs
     disp_gantt_chart(gantt);
+
+    // CPU kihasznaltsag kulon szamolva
+    write_CPU_UNITILATION(cs, fcfs_cpu, fcfs_que);
 
     cout << "\n -SJF-  "
          << endl;
 
     // Tabla rajzolas sjf
     disp(completion_queue2, false);
+    sjf_que = completion_queue2;
+    sjf_cpu = gantt2;
 
     // Gantt rajzolas sjf
     disp_gantt_chart(gantt2);
+    // CPU kihasznaltsag kulon szamolva
+    write_CPU_UNITILATION(cs, sjf_cpu, sjf_que);
 
     cout << "\n -RR-  "
          << endl;
 
     // Tabla rajzolas RR
     rr_que = completion_queue3;
+    rr_cpu = gantt3;
+
     disp(completion_queue3, false);
 
     cout << "\n MS:- " << ms << endl;
 
     // Gantt rajzolas RR
-
-    rr_cpu = gantt3;
     disp_gantt_chart(gantt3);
-
-    double cs_sum = 0;
-    while (!rr_cpu.empty())
-    {
-        cs_sum += 0.1;
-        rr_cpu.pop();
-    }
-    
-    double temp1;
-
-    temp1 = get_total_BT(rr_que);
-    cout << "RR-hez külön számitva " << cs_sum << endl;
-    cout << "CPU kihasznaltsag :- " << temp1 / (temp1+cs_sum) << endl;
+    // CPU kihasznaltsag kulon szamolva
+    write_CPU_UNITILATION(cs, rr_cpu, rr_que);
 
     return 0;
 }
