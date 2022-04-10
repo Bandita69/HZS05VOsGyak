@@ -62,6 +62,7 @@ void priter(deque<process> ready_queue, size_t puser, size_t max_time)
     size_t min_value;
     size_t x;
     bool elso = false;
+    string csillag;
     size_t quantums = max_time / puser;
     for (size_t y = 0; y < quantums; y++)
     {
@@ -113,16 +114,7 @@ void priter(deque<process> ready_queue, size_t puser, size_t max_time)
             // cout << endl;
         }
 
-        if (spaces.front().p_next)
-        {
-            spaces.front().p_next = false;
-            spaces.back().p_next = true;
-        }
-        else
-        {
-            spaces.front().p_next = true;
-            spaces.back().p_next = false;
-        }
+
 
         while (!spaces.empty())
         {
@@ -144,11 +136,18 @@ void priter(deque<process> ready_queue, size_t puser, size_t max_time)
 
         spaces = pohar;
         cout << "|" << setw(4) << y + 2 << "|";
+        csillag = "  ";
+
         while (!spaces.empty())
         {
+            if (spaces.front().p_next)
+            {
+                csillag = " *";
+            }
 
-            cout << "|" << setw(6) << spaces.front().p_uspri << " |" << setw(6) << spaces.front().p_cpu << " |";
+            cout << "|" << csillag << setw(4) << spaces.front().p_uspri << " |" << setw(6) << spaces.front().p_cpu << " |";
             spaces.pop_front();
+            csillag = "  ";
         }
         cout << endl;
         spaces = pohar;
@@ -161,35 +160,34 @@ int main()
     // ebbol itt lehetne egy bekero programot is csinalni
 
     deque<process> ready_queue;
-    process teszt, teszt2, teszt3, teszt4;
+    process processz, processz2, processz3, processz4;
     size_t PUSER = 60;
     size_t clock = 300;
 
-    teszt.p_name = "A";
-    teszt.p_uspri = 60;
-    teszt.p_cpu = 0;
-    teszt.p_nice = 0;
+    processz.p_name = "A";
+    processz.p_uspri = 60;
+    processz.p_cpu = 0;
+    processz.p_nice = 0;
 
-    teszt2.p_name = "B";
-    teszt2.p_uspri = 60;
-    teszt2.p_cpu = 0;
-    teszt2.p_nice = 0;
+    processz2.p_name = "B";
+    processz2.p_uspri = 60;
+    processz2.p_cpu = 0;
+    processz2.p_nice = 0;
 
-    teszt3.p_name = "C";
-    teszt3.p_uspri = 60;
-    teszt3.p_cpu = 0;
-    teszt3.p_nice = 0;
+    processz3.p_name = "C";
+    processz3.p_uspri = 60;
+    processz3.p_cpu = 0;
+    processz3.p_nice = 0;
 
-    teszt4.p_name = "D";
-    teszt4.p_uspri = 60;
-    teszt4.p_cpu = 0;
-    teszt4.p_nice = 5;
+    processz4.p_name = "D";
+    processz4.p_uspri = 60;
+    processz4.p_cpu = 0;
+    processz4.p_nice = 5;
 
-    ready_queue.push_back(teszt);
-    ready_queue.push_back(teszt2);
-    ready_queue.push_back(teszt3);
-    ready_queue.push_back(teszt4);
-
+    ready_queue.push_back(processz);
+    ready_queue.push_back(processz2);
+    ready_queue.push_back(processz3);
+    ready_queue.push_back(processz4);
 
     priter(ready_queue, PUSER, clock);
     return 0;
