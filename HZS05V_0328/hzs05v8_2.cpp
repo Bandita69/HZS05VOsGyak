@@ -11,7 +11,7 @@ using namespace std;
 class process
 {
 public:
-    size_t p_uspri, p_cpu;
+    size_t p_uspri, p_cpu, p_nice;
     bool p_next = false;
     string p_name;
 };
@@ -130,7 +130,7 @@ void priter(deque<process> ready_queue, size_t puser, size_t max_time)
             if (p.p_cpu != 0)
             {
                 p.p_cpu = p.p_cpu / 2;
-                p.p_uspri = puser + p.p_cpu / 2;
+                p.p_uspri = puser + (p.p_cpu / 2) + p.p_nice;
                 pohar.push_back(p);
                 spaces.pop_front();
             }
@@ -161,25 +161,35 @@ int main()
     // ebbol itt lehetne egy bekero programot is csinalni
 
     deque<process> ready_queue;
-    process teszt, teszt2, teszt3;
+    process teszt, teszt2, teszt3, teszt4;
     size_t PUSER = 60;
     size_t clock = 300;
 
     teszt.p_name = "A";
     teszt.p_uspri = 60;
     teszt.p_cpu = 0;
+    teszt.p_nice = 0;
 
     teszt2.p_name = "B";
     teszt2.p_uspri = 60;
     teszt2.p_cpu = 0;
+    teszt2.p_nice = 0;
 
     teszt3.p_name = "C";
-    teszt3.p_uspri = 63;
-    teszt3.p_cpu = 7;
+    teszt3.p_uspri = 60;
+    teszt3.p_cpu = 0;
+    teszt3.p_nice = 0;
+
+    teszt4.p_name = "D";
+    teszt4.p_uspri = 60;
+    teszt4.p_cpu = 0;
+    teszt4.p_nice = 5;
 
     ready_queue.push_back(teszt);
     ready_queue.push_back(teszt2);
     ready_queue.push_back(teszt3);
+    ready_queue.push_back(teszt4);
+
 
     priter(ready_queue, PUSER, clock);
     return 0;
