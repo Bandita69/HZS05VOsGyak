@@ -33,10 +33,12 @@ void priter(deque<process> ready_queue, size_t puser)
     }
     cout << endl;
     spaces = ready_queue;
-    size_t min_value = 10000;
+    size_t min_value;
     size_t x;
+    bool elso = false;
     for (size_t y = 0; y < 4; y++)
     {
+
         pohar = spaces;
         min_value = 10000;
         while (!pohar.empty())
@@ -47,7 +49,7 @@ void priter(deque<process> ready_queue, size_t puser)
 
             if (x < min_value)
                 min_value = x;
-                }
+        }
         cout << min_value << endl;
         clear(pohar);
 
@@ -57,8 +59,21 @@ void priter(deque<process> ready_queue, size_t puser)
             {
                 p = spaces.front();
                 // cout << "|" << setw(4) << p.p_uspri << " |" << setw(4) << p.p_cpu << " |";
+
+                // IDE KELL MEG VALAMI
+                if (p.p_uspri == min_value && elso == false)
+                {
+                    p.p_next = true;
+
+                    elso = true;
+                }
+                else
+                {
+                    p.p_next = false;
+                }
                 if (p.p_next)
                 {
+
                     p.p_cpu++;
                 }
 
@@ -67,6 +82,7 @@ void priter(deque<process> ready_queue, size_t puser)
             }
             spaces = pohar;
             clear(pohar);
+            elso = false;
 
             // cout << endl;
         }
@@ -120,15 +136,13 @@ int main()
     process teszt, teszt2, teszt3;
     teszt.p_cpu = 0;
     teszt.p_uspri = 60;
-    teszt.p_next = true;
     teszt2.p_cpu = 1;
     teszt2.p_uspri = 60;
- /*    teszt3.p_cpu = 1;
-    teszt3.p_uspri = 60; */
-
+    teszt3.p_cpu = 1;
+    teszt3.p_uspri = 60;
     ready_queue.push_back(teszt);
     ready_queue.push_back(teszt2);
-   /*  ready_queue.push_back(teszt3); */
+    ready_queue.push_back(teszt3);
 
     priter(ready_queue, 60);
     return 0;
