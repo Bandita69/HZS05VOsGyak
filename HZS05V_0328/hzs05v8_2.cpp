@@ -1,4 +1,6 @@
 // Neptun: HZS05V
+// 8. het 2. feladat
+// tradicionalis unix utemezes
 #include <cstdlib>
 #include <iostream>
 #include <iomanip>
@@ -11,6 +13,7 @@ class process
 public:
     size_t p_uspri, p_cpu;
     bool p_next = false;
+    string p_name;
 };
 
 void clear(deque<process> &q)
@@ -19,16 +22,39 @@ void clear(deque<process> &q)
     swap(q, empty);
 }
 
-void priter(deque<process> ready_queue, size_t puser)
+void priter(deque<process> ready_queue, size_t puser, size_t max_time)
 {
     deque<process> spaces = ready_queue;
     deque<process> pohar;
     process p;
-    cout << "|   1";
+    cout << "|" << setw(4) << "Quan";
     while (!spaces.empty())
     {
 
-        cout << "|" << setw(4) << spaces.front().p_uspri << " |" << setw(4) << spaces.front().p_cpu << " |";
+        cout << "||  " << spaces.front().p_name << setw(12) << "processz  ";
+
+        spaces.pop_front();
+    }
+    cout << "|" << endl;
+    spaces = ready_queue;
+
+    cout << "|" << setw(4) << "tum ";
+    while (!spaces.empty())
+    {
+
+        cout << "||" << setw(7) << "p_uspri"
+             << "|" << setw(7) << "p_cpu";
+
+        spaces.pop_front();
+    }
+    cout << "|" << endl;
+    spaces = ready_queue;
+
+    cout << "|   1|";
+    while (!spaces.empty())
+    {
+
+        cout << "|" << setw(6) << spaces.front().p_uspri << " |" << setw(6) << spaces.front().p_cpu << " |";
         spaces.pop_front();
     }
     cout << endl;
@@ -36,7 +62,8 @@ void priter(deque<process> ready_queue, size_t puser)
     size_t min_value;
     size_t x;
     bool elso = false;
-    for (size_t y = 0; y < 4; y++)
+    size_t quantums = max_time / puser;
+    for (size_t y = 0; y < quantums; y++)
     {
 
         pohar = spaces;
@@ -50,7 +77,7 @@ void priter(deque<process> ready_queue, size_t puser)
             if (x < min_value)
                 min_value = x;
         }
-        cout << min_value << endl;
+        // cout << min_value << endl;
         clear(pohar);
 
         for (size_t i = 0; i <= puser; i++)
@@ -60,7 +87,6 @@ void priter(deque<process> ready_queue, size_t puser)
                 p = spaces.front();
                 // cout << "|" << setw(4) << p.p_uspri << " |" << setw(4) << p.p_cpu << " |";
 
-                // IDE KELL MEG VALAMI
                 if (p.p_uspri == min_value && elso == false)
                 {
                     p.p_next = true;
@@ -117,11 +143,11 @@ void priter(deque<process> ready_queue, size_t puser)
         }
 
         spaces = pohar;
-        cout << "|" << setw(4) << y + 2;
+        cout << "|" << setw(4) << y + 2 << "|";
         while (!spaces.empty())
         {
 
-            cout << "|" << setw(4) << spaces.front().p_uspri << " |" << setw(4) << spaces.front().p_cpu << " |";
+            cout << "|" << setw(6) << spaces.front().p_uspri << " |" << setw(6) << spaces.front().p_cpu << " |";
             spaces.pop_front();
         }
         cout << endl;
@@ -132,18 +158,31 @@ void priter(deque<process> ready_queue, size_t puser)
 
 int main()
 {
+    // ebbol itt lehetne egy bekero programot is csinalni
+
     deque<process> ready_queue;
     process teszt, teszt2, teszt3;
-    teszt.p_cpu = 0;
+    size_t PUSER = 60;
+    size_t clock = 300;
+
+    teszt.p_name = "A";
     teszt.p_uspri = 60;
-    teszt2.p_cpu = 1;
+    teszt.p_cpu = 0;
+
+    teszt2.p_name = "B";
     teszt2.p_uspri = 60;
-    teszt3.p_cpu = 1;
-    teszt3.p_uspri = 60;
+    teszt2.p_cpu = 0;
+
+    teszt3.p_name = "C";
+    teszt3.p_uspri = 63;
+    teszt3.p_cpu = 7;
+
     ready_queue.push_back(teszt);
     ready_queue.push_back(teszt2);
     ready_queue.push_back(teszt3);
 
-    priter(ready_queue, 60);
+    priter(ready_queue, PUSER, clock);
     return 0;
 }
+
+// FIXIT: nem mindig kerekit helyesen
