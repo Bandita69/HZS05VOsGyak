@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <signal.h>
 #include <unistd.h>
-
+#include <stdlib.h>
 
 void sig_handler(int signum)
 {
@@ -12,9 +12,9 @@ void sig_handler(int signum)
 
 int main () 
 {
-	signal(SIGALRM, sig_handler);
+	signal(SIGINT, sig_handler);
 	
-	system("pause");
+	pause();
 
 	return(0);
 }
