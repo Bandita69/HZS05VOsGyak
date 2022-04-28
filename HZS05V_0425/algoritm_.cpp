@@ -8,6 +8,7 @@ void FirstFit(int blockSize[], int m,
               int processSize[], int n)
 {
     double avg = 0;
+
     // Tarolja a blokkok szamait
     // amelyiket sikerult lefoglalni
     int allocation[n];
@@ -27,6 +28,7 @@ void FirstFit(int blockSize[], int m,
             {
                 // allokalja  a p[i] proceszt a j memoria blokkhoz
                 allocation[i] = j;
+                maradek = maradek - blockSize_Origin[j];
 
                 // Levonja az elfolglalt memoriat a blokkban
                 blockSize[j] -= processSize[i];
@@ -53,7 +55,8 @@ void FirstFit(int blockSize[], int m,
             cout << "Nem sikerult allocalni";
         cout << endl;
     }
-    cout << "Atlag kihasznaltsag: " << avg / n << "%";
+    // blokkonkent osszegezve
+    cout << "Atlag kihasznaltsag: " << avg / m << "%";
 }
 
 void NextFit(int blockSize[], int m, int processSize[], int n)
@@ -105,7 +108,7 @@ void NextFit(int blockSize[], int m, int processSize[], int n)
             cout << "Nem sikerult allocalni";
         cout << endl;
     }
-    cout << "Atlag kihasznaltsag: " << avg / n << "%";
+    cout << "Atlag kihasznaltsag: " << avg / m << "%";
 }
 
 void BestFit(int blockSize[], int m, int processSize[], int n)
@@ -161,7 +164,7 @@ void BestFit(int blockSize[], int m, int processSize[], int n)
             cout << "Nem sikerult allocalni";
         cout << endl;
     }
-    cout << "Atlag kihasznaltsag: " << avg / n << "%";
+    cout << "Atlag kihasznaltsag: " << avg / m << "%";
 }
 
 void WorstFit(int blockSize[], int m, int processSize[],
@@ -215,8 +218,17 @@ void WorstFit(int blockSize[], int m, int processSize[],
             cout << "Nem sikerult allocalni";
         cout << endl;
     }
-    cout << "Atlag kihasznaltsag: " << avg / n << "%";
+    cout << "Atlag kihasznaltsag: " << avg / m << "%";
+    int sumblokk = 0;
+    int processezk = 0;
+    for (int el : blockSize_Origin)
+        sumblokk = sumblokk + el;
+    for (int el : processSize)
+        processezk = processezk + el;
+
+    cout << sumblokk << " " << processezk;
 }
+
 
 // Hasonlítsa össze, hogy a teljes szabad memóriaterület hány százaléka vész el átlagosan az
 // egyes algoritmusok esetén!

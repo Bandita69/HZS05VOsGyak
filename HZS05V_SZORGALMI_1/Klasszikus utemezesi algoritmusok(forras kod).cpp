@@ -1,17 +1,8 @@
-// Neptun: HZS05V
-// Timko Andras OPERACIOS RENDSZEREK SZORGALMI
-//  C++ kulonbozo utemezesi algoritmusokhoz
-// INPUT: Erkezesi idok
-//        Cpu idok
-//        MS
-//        Kapcsolas idoigenye
-// OUTPUT: Befejezesi ido Total/Atlag
-//         Varakozasi ido Total/atlag
-//         Valasz ido Total/atlag
-//         CPU ido Total
-//         Kapcsolas idoigenye
-//         CPU Kihasznaltsag
-//
+// Klasszikus ütemezési algoritmusok
+// Timko Andras HZS05V
+// Miskolci Egyetem Informatika Intézet
+// andras.timko.96@gmail.com
+
 #include <cstdlib>
 #include <iostream>
 #include <queue>
@@ -325,6 +316,14 @@ int set_MS()
     return ms_given;
 }
 
+int choose_Algo()
+{
+    int algo_given;
+    printf("Adja meg melyik algoritmussal kivan szamolni! (1-fcfs, 2-sjf, 3-rr):\t");
+    scanf("%d", &algo_given);
+    return algo_given;
+}
+
 // Atlagok szamitasa:
 // Osszes varakozasi ido
 double get_total_WT(priority_queue<process> processes)
@@ -387,20 +386,7 @@ double get_total_BT(priority_queue<process> processes)
     return total;
 }
 
-void write_CPU_UNITILATION(double cs, queue<process> gantt_cpu, priority_queue<process> cpu_que)
-{
-    double cs_sum = 0.0;
-    double temp1;
-    while (!gantt_cpu.empty())
-    {
-        cs_sum += cs;
-        gantt_cpu.pop();
-    }
 
-    temp1 = get_total_BT(cpu_que);
-    cout << "Total CS:- " << cs_sum << endl;
-    cout << "CPU kihasznaltsag :- " << temp1 / (temp1 + cs_sum) << endl;
-}
 
 // FCFS tabla kirajzolasa
 
@@ -553,60 +539,64 @@ int main()
     priority_queue<process> ready_queue;
     priority_queue<process> completion_queue, completion_queue2, completion_queue3, rr_que, sjf_que, fcfs_que;
     queue<process> gantt, gantt2, gantt3, rr_cpu, sjf_cpu, fcfs_cpu;
-    int ms;
-    double cs;
+    int ms, algo;
+   
 
     // Adatok bekerdezese
     ready_queue = set_process_data();
-    cs = set_CS();
-    ms = set_MS();
+    
+    algo = choose_Algo();
 
-    cout << cs << endl;
+    switch (algo)
+    {
+    case 1:
+        // Tabla rajzolas fcfs
+        cout << "\n -FCFS-  "
+             << endl;
+        completion_queue = FCFS_run(ready_queue, &gantt);
+        disp(completion_queue, false);
+        fcfs_que = completion_queue;
+        fcfs_cpu = gantt;
+        // Gantt rajzolas fcfs
+        disp_gantt_chart(gantt);
+        
+       
+        break;
+    case 2:
+        // Tabla rajzolas sjf
+        cout << "\n -SJF-  "
+             << endl;
+        completion_queue2 = SJF_P_run(ready_queue, &gantt2);
+        disp(completion_queue2, false);
+        sjf_que = completion_queue2;
+        sjf_cpu = gantt2;
+        // Gantt rajzolas sjf
+        disp_gantt_chart(gantt2);
+  
+        break;
+    case 3:
+        // Tabla rajzolas RR
+        ms = set_MS();
+        cout << "\n -RR-  "
+             << endl;
+        completion_queue3 = RR_run(ready_queue, ms, &gantt3);
+        rr_que = completion_queue3;
+        rr_cpu = gantt3;
+        disp(completion_queue3, false);
 
-    completion_queue = FCFS_run(ready_queue, &gantt);
+        cout << "\n MS:- " << ms << endl;
 
-    completion_queue2 = SJF_P_run(ready_queue, &gantt2);
+        // Gantt rajzolas RR
+        disp_gantt_chart(gantt3);
 
-    completion_queue3 = RR_run(ready_queue, ms, &gantt3);
+        break;
 
-    // Tabla rajzolas fcfs
-    disp(completion_queue, false);
-    fcfs_que = completion_queue;
-    fcfs_cpu = gantt;
-    // Gantt rajzolas fcfs
-    disp_gantt_chart(gantt);
+    default:
+        cout << "Valami nem jo";
+        break;
+    }
 
-    // CPU kihasznaltsag kulon szamolva
-    write_CPU_UNITILATION(cs, fcfs_cpu, fcfs_que);
-
-    cout << "\n -SJF-  "
-         << endl;
-
-    // Tabla rajzolas sjf
-    disp(completion_queue2, false);
-    sjf_que = completion_queue2;
-    sjf_cpu = gantt2;
-
-    // Gantt rajzolas sjf
-    disp_gantt_chart(gantt2);
-    // CPU kihasznaltsag kulon szamolva
-    write_CPU_UNITILATION(cs, sjf_cpu, sjf_que);
-
-    cout << "\n -RR-  "
-         << endl;
-
-    // Tabla rajzolas RR
-    rr_que = completion_queue3;
-    rr_cpu = gantt3;
-
-    disp(completion_queue3, false);
-
-    cout << "\n MS:- " << ms << endl;
-
-    // Gantt rajzolas RR
-    disp_gantt_chart(gantt3);
-    // CPU kihasznaltsag kulon szamolva
-    write_CPU_UNITILATION(cs, rr_cpu, rr_que);
-
+    // Var egy gomb nyomast
+    system("pause");
     return 0;
 }
