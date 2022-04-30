@@ -13,57 +13,70 @@ int main()
     pid_t child_pid, wpid;
     pid_t grandson_pid;
     int status = 0;
-    int parent = 2;
-    int grandson = 3;
+    
+    int grandson = 4;
 
 
     printf("Fo procesz [Procesz id: %d].\n\n",getpid());
 
-    for (int id=0; id<parent; id++)
-    {
-        sleep(1);
-
-        if ((child_pid = fork()) == 0)
+    
+        
+	child_pid = fork();
+        if (child_pid > 0)
         {
 
-
             //szolo kod
-            printf("gyerek megszuletett [Procesz id: %d][Szulo Procesz id: %d].\n ",getpid(),getppid());
-            sleep(1);
+        
+    	   printf("\n szulo megszuletett [Procesz id: %d][Szulo Szulo Procesz id: %d].\n ",getpid(),getppid());
+	
 
             for (int id2=0; id2<grandson; id2++)
             {
-                sleep(1);
-                if ((grandson_pid = fork()) == 0)
+		
+                grandson_pid = fork();
+                if (grandson_pid > 0)
                 {
+			
                     //unoka kod
                     printf("\n(unoka)gyerek megszuletett [Procesz id: %d] [Szulo Procesz id: %d]-tol.\n ",getpid(),getppid());
-                   
-                    sleep(2);
- 		    	
-
-                    
-
-
-                }
-
-            }
-
-            
-
-        }
-
-        while ((wpid = wait(&status)) > 0);
-        printf("\n(szulo)gyereket megszuntette a [Szulo Procesz id: %d].\n\n",getpid());
+			sleep(2);
+                  }
+ 		}
+ 	      }
 
 
-    }
+	child_pid = fork();
+        if (child_pid > 0)
+        {
+            //szolo kod
+        
+    	   printf("\n szulo megszuletett [Procesz id: %d][Szulo Szulo Procesz id: %d].\n ",getpid(),getppid());
+	
+
+            for (int id2=0; id2<grandson; id2++)
+            {
+		
+                grandson_pid = fork();
+                if (grandson_pid > 0)
+                {
+			
+                    //unoka kod
+                    printf("\n(unoka)gyerek megszuletett [Procesz id: %d] [Szulo Procesz id: %d]-tol.\n ",getpid(),getppid());
+			sleep(3);
+                  }
+ 		}
+ 	      }
 
 
-    while ((wpid = wait(&status)) > 0); 
 
-    // megvarja a nagyszulo a gyerekeket es csak azutan fut le:
+        printf("\n a gyerek megszuntek a [Szulo Procesz id: %d] most szunik meg.\n\n",getpid());
+
+
     
-    kill(grandson_pid, SIGKILL);
+
+
+     // megvarja a nagyszulo a gyerekeket es csak azutan fut le:
+    
+    kill(child_pid, SIGKILL);
     printf("\n(nagy)szulo megszunt letezni [Procesz id: %d].\n",getpid());
 }
