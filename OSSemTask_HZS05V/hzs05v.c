@@ -1,8 +1,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <sys/types.h>
+#include <sys/wait.h>
 #include <signal.h>
-
+#include <unistd.h>
+#include <fcntl.h>
 
 int main()
 {
@@ -14,8 +16,8 @@ int main()
     int parent = 2;
     int grandson = 3;
 
-//nagyszulo kod
-    printf("(nagy)szulo megszuletett  [Procesz id: %d].\n\n",getpid());
+
+    printf("Fo procesz [Procesz id: %d].\n\n",getpid());
 
     for (int id=0; id<parent; id++)
     {
@@ -26,7 +28,7 @@ int main()
 
 
             //szolo kod
-            printf("(szulo)gyerek megszuletett [Procesz id: %d][Szulo Procesz id: %d].\n ",getpid(),getppid());
+            printf("gyerek megszuletett [Procesz id: %d][Szulo Procesz id: %d].\n ",getpid(),getppid());
             sleep(1);
 
             for (int id2=0; id2<grandson; id2++)
@@ -36,18 +38,18 @@ int main()
                 {
                     //unoka kod
                     printf("\n(unoka)gyerek megszuletett [Procesz id: %d] [Szulo Procesz id: %d]-tol.\n ",getpid(),getppid());
-                    kill(grandson_pid, 0);
-                    sleep(1);
+                   
+                    sleep(2);
+ 		    	
 
-
-                    exit(0);
+                    
 
 
                 }
 
             }
 
-            exit(0);
+            
 
         }
 
@@ -62,6 +64,6 @@ int main()
 
     // megvarja a nagyszulo a gyerekeket es csak azutan fut le:
     
-    kill(child_pid, SIGKILL);
+    kill(grandson_pid, SIGKILL);
     printf("\n(nagy)szulo megszunt letezni [Procesz id: %d].\n",getpid());
 }
