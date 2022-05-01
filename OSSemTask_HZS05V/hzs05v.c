@@ -3,6 +3,7 @@
 #include <sys/types.h>
 #include <sys/wait.h>
 #include <unistd.h>
+#include <signal.h>
 
 void sigchld_handler(int signum)
 {
@@ -17,7 +18,7 @@ void sigchld_handler(int signum)
 int main(void)
 {
     
-
+    signal(SIGINT,sigchld_handler);
     for (size_t i = 1; i <= 2; i++)
     {
         pid_t pid_par = fork();
