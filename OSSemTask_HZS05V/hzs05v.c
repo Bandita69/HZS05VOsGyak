@@ -17,6 +17,7 @@ int main(void)
         if (pid_par != 0)
         {
             printf("\n");
+            wait(NULL);
             exit(0);
         }
         else
@@ -48,6 +49,7 @@ int main(void)
 
     
     printf("\nITT A VEGE");
-   
+   wait(NULL);
+   wait(NULL);
     return(0);
 }
