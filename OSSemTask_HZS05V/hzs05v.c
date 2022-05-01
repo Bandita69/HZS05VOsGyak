@@ -4,6 +4,16 @@
 #include <sys/wait.h>
 #include <unistd.h>
 
+void sigchld_handler(int signum)
+{
+    pid_t pid;
+    int   status;
+    while ((pid = waitpid(-1, &status, WNOHANG)) > 0)
+    {
+        unregister_child(pid, status);   // Or whatever you need to do with the PID
+    }
+}
+
 int main(void)
 {
     
@@ -45,6 +55,6 @@ int main(void)
             
         }
     }
-    int vege = kill(pid_par, SIGKILL);
+    //int vege = kill(pid_par, SIGTERM);
     return EXIT_SUCCESS;
 }
