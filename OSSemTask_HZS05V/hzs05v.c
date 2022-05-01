@@ -46,5 +46,6 @@ int main(void)
 
     
     printf("\nITT A VEGE");
+    abort();
     return(0);
 }
