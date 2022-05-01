@@ -8,6 +8,7 @@
 int main(void)
 {
     pid_t pid_par;
+    pid_t pid;
 
     for (size_t i = 1; i <= 2; i++)
     {
@@ -24,7 +25,7 @@ int main(void)
             printf("\n");
             for (int i = 1; i <= 3; i++)
             {
-                pid_t pid = fork();
+                 pid = fork();
 
                 if (pid == 0)
                 {
@@ -41,6 +42,6 @@ int main(void)
             }
         }
     }
-    int vege = kill(pid_par, SIGKILL);
+    int vege = kill(pid, SIGKILL);
     return EXIT_SUCCESS;
 }
