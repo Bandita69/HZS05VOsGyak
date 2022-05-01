@@ -37,17 +37,14 @@ int main(void)
                     printf("Waiting for child processes to finish...\n");
                     wait(NULL);
                     printf("child process finished.\n");
-                    //exit(0);
+                    exit(0);
                 }
             }
-            exit(0);
+            //exit(0); nem
         }
     }
 
     
-    pid_t exi_p = getpid();
-    kill(pid, SIGKILL);
-    kill(pid_par, SIGKILL);
-    kill(exi_p, SIGKILL);
+
     return(0);
 }
