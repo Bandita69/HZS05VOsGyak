@@ -34,9 +34,11 @@ int main(void)
                     printf("Waiting for child processes to finish...\n");
                     wait(NULL);
                     printf("child process finished.\n");
+                    exit(0);
+
                 }
             }
-            exit(0);
+            
         }
     }
 
