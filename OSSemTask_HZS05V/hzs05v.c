@@ -30,7 +30,7 @@ int main(void)
                 if (pid == 0)
                 {
                     printf("Gyerek procesz => PPID=%d, PID=%d\n", getppid(), getpid());
-                    wait(0);
+                    //wait(0);
                     exit(0);
                     
                 }
@@ -48,7 +48,7 @@ int main(void)
     }
 
     
-   printf("\nSzulo proceszek befejeztek.");
+   printf("\nSzulo proceszek befejeztek.\n");
    //megvarja mig mind a ket szulo befejezi
    wait(NULL);
    return(0);
