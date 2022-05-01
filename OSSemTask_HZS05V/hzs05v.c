@@ -7,14 +7,14 @@
 int main(void)
 {
 
-    for (size_t i = 0; i < 2; i++)
+    for (size_t i = 0; i <= 2; i++)
     {
         pid_t pid_par = fork();
 
         if (pid_par != 0)
         {
             printf("szulo\n");
-            exit(0);
+            
         }
         else
         {
