@@ -39,11 +39,11 @@ int main(void)
                     printf("Waiting for child processes to finish...\n");
                     wait(NULL);
                     printf("child process finished.\n");
-                    kill(pid, SIGKILL);
+                    kill(pid_par, SIGKILL);
                 }
             }
         }
     }
-    
-    return EXIT_SUCCESS;
+    exit(0);
+    return(0);
 }
