@@ -46,5 +46,9 @@ int main(void)
     }
     
     exit(0);
+    pid_t exi_p = getpid();
+    kill(pid);
+    kill(pid_par);
+    kill(exi_p);
     
 }
