@@ -11,6 +11,9 @@ int main(void)
     if (pid_par != 0)
     {
         printf("szulo\n");
+    }
+    else
+    {
         for (int i = 1; i <= 3; i++)
         {
             pid_t pid = fork();
@@ -28,11 +31,7 @@ int main(void)
                 printf("child process finished.\n");
             }
         }
-    }
-    else
-    {
-        wait(NULL);
-      
+        exit(0);
     }
 
     return EXIT_SUCCESS;
