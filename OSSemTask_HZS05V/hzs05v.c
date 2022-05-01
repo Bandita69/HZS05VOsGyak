@@ -16,12 +16,14 @@ int main(void)
 
         if (pid_par != 0)
         {
+            //szulo
             printf("\n");
             wait(NULL);
             exit(0);
         }
         else
         {
+            //gyerek
             printf("\n");
             for (int i = 1; i <= 3; i++)
             {
@@ -29,13 +31,15 @@ int main(void)
 
                 if (pid == 0)
                 {
+                    //gyerek
                     printf("Gyerek procesz => PPID=%d, PID=%d\n", getppid(), getpid());
-                    //wait(0);
+                    sleep(2);
                     exit(0);
                     
                 }
                 else
                 {
+                    //szulo
                     printf("Szulo procesz => PID=%d\n", getpid());
                     printf("Varok hogy a gyerek befejezze...\n");
                     wait(NULL);
