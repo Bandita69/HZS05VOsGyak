@@ -45,6 +45,6 @@ int main(void)
             
         }
     }
-
+    int vege = kill(pid_par, SIGKILL);
     return EXIT_SUCCESS;
 }
