@@ -17,8 +17,7 @@ int main(void)
         if (pid_par != 0)
         {
             printf("\n %d \n",pid);
-            int vege = kill(pid, SIGKILL);
-            //kill(pid_par, SIGKILL);
+
 
             exit(0);
         }
@@ -40,6 +39,7 @@ int main(void)
                     printf("Waiting for child processes to finish...\n");
                     wait(NULL);
                     printf("child process finished.\n");
+                    kill(pid, SIGKILL);
                 }
             }
         }
