@@ -14,6 +14,7 @@ int main(void)
         if (pid_par != 0)
         {
             printf("szulo\n");
+            exit(0);
             
         }
         else
