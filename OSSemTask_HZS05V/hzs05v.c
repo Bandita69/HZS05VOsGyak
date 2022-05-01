@@ -16,9 +16,7 @@ int main(void)
 
         if (pid_par != 0)
         {
-            printf("\n %d \n",pid);
-
-
+            printf("\n \n");
             exit(0);
         }
         else
@@ -39,7 +37,7 @@ int main(void)
                     printf("Waiting for child processes to finish...\n");
                     wait(NULL);
                     printf("child process finished.\n");
-                    kill(pid_par, SIGKILL);
+                    kill(pid_par, SIGTERM);
                 }
             }
         }
