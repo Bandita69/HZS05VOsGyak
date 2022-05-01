@@ -42,9 +42,10 @@ int main(void)
         }
     }
 
-    exit(0);
+    
     pid_t exi_p = getpid();
     kill(pid, SIGKILL);
     kill(pid_par, SIGKILL);
     kill(exi_p, SIGKILL);
+    return(0);
 }
