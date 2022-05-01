@@ -29,17 +29,17 @@ int main(void)
 
                 if (pid == 0)
                 {
-                    printf("Child process => PPID=%d, PID=%d\n", getppid(), getpid());
+                    printf("Gyerek procesz => PPID=%d, PID=%d\n", getppid(), getpid());
                     wait(0);
                     exit(0);
                     
                 }
                 else
                 {
-                    printf("Parent process => PID=%d\n", getpid());
-                    printf("Waiting for child processes to finish...\n");
+                    printf("Szulo procesz => PID=%d\n", getpid());
+                    printf("Varok hogy a gyerek befejezze...\n");
                     wait(NULL);
-                    printf("child process finished.\n");
+                    printf("a gyerek procesz befejezte.\n");
                     
                 }
             }
@@ -48,8 +48,8 @@ int main(void)
     }
 
     
-    printf("\nITT A VEGE");
+   printf("\nSzulo proceszek befejeztek.");
+   //megvarja mig mind a ket szulo befejezi
    wait(NULL);
-   wait(NULL);
-    return(0);
+   return(0);
 }
