@@ -7,7 +7,7 @@
 
 void sigchld_handler(int signum)
 {
-    printf(signum);
+    printf("\nsignum: %d", signum);
 }
 
 int main(void)
