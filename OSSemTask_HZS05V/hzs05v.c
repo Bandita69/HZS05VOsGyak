@@ -6,14 +6,15 @@
 
 int main(void)
 {
+    printf("\n");
 
-    for (size_t i = 0; i <= 2; i++)
+    for (size_t i = 1; i <= 2; i++)
     {
         pid_t pid_par = fork();
 
         if (pid_par != 0)
         {
-            printf("\nszulo\n");
+            
             exit(0);
             
             
