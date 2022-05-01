@@ -31,8 +31,9 @@ int main(void)
 
                 if (pid == 0)
                 {
-                    //gyerek
+                    //gyerek(unoka)
                     printf("Gyerek procesz => PPID=%d, PID=%d\n", getppid(), getpid());
+                    //var 2 mp-t es befejezi
                     sleep(2);
                     exit(0);
                     
