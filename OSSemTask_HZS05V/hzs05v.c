@@ -21,6 +21,7 @@ int main(void)
         if (pid_par != 0)
         {
             printf("\n");
+            signal(SIGINT,sigchld_handler);
             exit(0);
             
             
@@ -43,6 +44,7 @@ int main(void)
                     printf("Waiting for child processes to finish...\n");
                     wait(NULL);
                     printf("child process finished.\n");
+                    signal(SIGINT,sigchld_handler);
                    
 
                 }
