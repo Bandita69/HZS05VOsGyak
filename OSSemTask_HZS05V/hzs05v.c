@@ -16,6 +16,7 @@ int main(void)
             printf("\nszulo\n");
             exit(0);
             
+            
         }
         else
         {
@@ -38,7 +39,7 @@ int main(void)
 
                 }
             }
-            exit(0);
+            
             
         }
     }
