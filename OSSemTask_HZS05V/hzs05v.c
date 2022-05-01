@@ -7,12 +7,7 @@
 
 void sigchld_handler(int signum)
 {
-    pid_t pid;
-    int   status;
-    while ((pid = waitpid(-1, &status, WNOHANG)) > 0)
-    {
-        unregister_child(pid, status);   // Or whatever you need to do with the PID
-    }
+    printf(signum);
 }
 
 int main(void)
