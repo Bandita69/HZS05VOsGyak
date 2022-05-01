@@ -13,7 +13,7 @@ int main(void)
 
         if (pid_par != 0)
         {
-            printf("szulo\n");
+            printf("\nszulo\n");
             exit(0);
             
         }
@@ -34,10 +34,11 @@ int main(void)
                     printf("Waiting for child processes to finish...\n");
                     wait(NULL);
                     printf("child process finished.\n");
-                    exit(0);
+                   
 
                 }
             }
+            exit(0);
             
         }
     }
