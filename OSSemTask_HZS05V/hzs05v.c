@@ -40,11 +40,11 @@ int main(void)
                    
                 }
             }
-            printf("HELLOOOOOOOOOOOOOOELSE");
+            
         }
-        printf("HELLOOOOOOOOOOOOOOELSOFOR");
+        
     }
-    printf("HELLOOOOOOOOOOOOOOEXIT");
+    
     exit(0);
-    return(0);
+    
 }
