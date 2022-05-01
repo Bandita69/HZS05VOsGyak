@@ -46,6 +46,8 @@ int main(void)
 
     
     printf("\nITT A VEGE");
+    kill(getppid(),SIGINT);
+    exit(0);
    
     return(0);
 }
