@@ -24,7 +24,7 @@ int main(void)
             printf("\n");
             for (int i = 1; i <= 3; i++)
             {
-                 pid = fork();
+                pid = fork();
 
                 if (pid == 0)
                 {
@@ -37,18 +37,14 @@ int main(void)
                     printf("Waiting for child processes to finish...\n");
                     wait(NULL);
                     printf("child process finished.\n");
-                   
                 }
             }
-            
         }
-        
     }
-    
+
     exit(0);
     pid_t exi_p = getpid();
-    kill(pid);
-    kill(pid_par);
-    kill(exi_p);
-    
+    kill(pid, SIGKILL);
+    kill(pid_par, SIGKILL);
+    kill(exi_p, SIGKILL);
 }
