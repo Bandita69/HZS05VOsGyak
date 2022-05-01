@@ -1,0 +1,11 @@
+cp -a .git .git-old
+git fsck --full
+cd .git
+find . -type f -empty -delete -print
+cd ..
+git fsck --full
+git reflog
+cp .git/config .git/config.backup
+git remote remove origin
+mv .git/config.backup .git/config
+git fetch
