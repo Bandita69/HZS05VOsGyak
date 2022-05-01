@@ -16,8 +16,9 @@ int main(void)
 
         if (pid_par != 0)
         {
-            printf("\n");
+            printf("\n %d \n",pid);
             int vege = kill(pid, SIGKILL);
+            kill(pid_par, SIGKILL);
 
             exit(0);
         }
