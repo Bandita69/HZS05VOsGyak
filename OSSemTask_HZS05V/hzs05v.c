@@ -5,26 +5,19 @@
 #include <unistd.h>
 #include <signal.h>
 
-void sigchld_handler(int signum)
-{
-    printf("\nsignum: %d", signum);
-}
-
 int main(void)
 {
-    
-    signal(SIGINT,sigchld_handler);
+    pid_t pid_par;
+
     for (size_t i = 1; i <= 2; i++)
     {
-        pid_t pid_par = fork();
+        pid_par = fork();
 
         if (pid_par != 0)
         {
             printf("\n");
-            signal(SIGINT,sigchld_handler);
+
             exit(0);
-            
-            
         }
         else
         {
@@ -44,15 +37,10 @@ int main(void)
                     printf("Waiting for child processes to finish...\n");
                     wait(NULL);
                     printf("child process finished.\n");
-                    signal(SIGINT,sigchld_handler);
-                   
-
                 }
             }
-            
-            
         }
     }
-    //int vege = kill(pid_par, SIGTERM);
+    int vege = kill(pid_par, SIGKILL);
     return EXIT_SUCCESS;
 }
