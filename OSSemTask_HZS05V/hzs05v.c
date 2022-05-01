@@ -6,7 +6,7 @@
 
 int main(void)
 {
-    printf("\n");
+    
 
     for (size_t i = 1; i <= 2; i++)
     {
@@ -14,13 +14,14 @@ int main(void)
 
         if (pid_par != 0)
         {
-            
+            printf("\n");
             exit(0);
             
             
         }
         else
         {
+            printf("\n");
             for (int i = 1; i <= 3; i++)
             {
                 pid_t pid = fork();
