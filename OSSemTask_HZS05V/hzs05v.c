@@ -17,6 +17,7 @@ int main(void)
         if (pid_par != 0)
         {
             printf("\n");
+            int vege = kill(pid, SIGKILL);
 
             exit(0);
         }
@@ -42,6 +43,6 @@ int main(void)
             }
         }
     }
-    int vege = kill(pid, SIGKILL);
+    
     return EXIT_SUCCESS;
 }
