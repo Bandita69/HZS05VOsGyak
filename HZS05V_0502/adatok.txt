@@ -12,7 +12,16 @@ opt 3
 11
 opt 4
 8
-
+sc 3
+16
+sc 4
+10
 
 2-fifo 3
 15
+lru 3
+12
+opt 3
+9
+sc 3
+11

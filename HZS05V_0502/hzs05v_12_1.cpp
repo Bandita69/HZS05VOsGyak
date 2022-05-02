@@ -2,6 +2,9 @@
 // Memóriakeret (igényelt lapok/capacity): <egy szam>
 // Fifo laphibak szamanak megkeresese
 #include <bits/stdc++.h>
+#include<iostream>
+#include<cstring>
+#include<sstream>
 using namespace std;
 int pageFaultsLRU(int pages[], int n, int capacity)
 {
@@ -132,6 +135,102 @@ int pageFaultsOPT(int pg[], int pn, int fn)
     return(pn-hit);
 }
 
+// If page found, updates the second chance bit to true
+ bool findAndUpdate(int x,int arr[],
+                bool second_chance[],int frames)
+ 
+{
+    int i;
+     
+    for(i = 0; i < frames; i++)
+    {
+         
+        if(arr[i] == x)
+        {
+            // Mark that the page deserves a second chance
+            second_chance[i] = true;
+             
+            // Return 'true', that is there was a hit
+            // and so there's no need to replace any page
+            return true;
+        }
+    }
+     
+    // Return 'false' so that a page for replacement is selected
+    // as he reuested page doesn't exist in memory
+    return false;
+     
+}
+ 
+ 
+// Updates the page in memory and returns the pointer
+ int replaceAndUpdate(int x,int arr[],
+            bool second_chance[],int frames,int pointer)
+{
+    while(true)
+    {
+         
+        // We found the page to replace
+        if(!second_chance[pointer])
+        {
+            // Replace with new page
+            arr[pointer] = x;
+             
+            // Return updated pointer
+            return (pointer + 1) % frames;
+        }
+         
+        // Mark it 'false' as it got one chance
+        // and will be replaced next time unless accessed again
+        second_chance[pointer] = false;
+         
+        //Pointer is updated in round robin manner
+        pointer = (pointer + 1) % frames;
+    }
+}
+ 
+int pageFaultsSC(int pages[], int n, int capacity)
+{
+    int pointer, i, l=0, x, pf;
+     
+    //initially we consider frame 0 is to be replaced
+    pointer = 0;
+     
+    //number of page faults
+    pf = 0;
+     
+    // Create a array to hold page numbers
+    int arr[capacity];
+     
+    // No pages initially in frame,
+    // which is indicated by -1
+    memset(arr, -1, sizeof(arr));
+     
+    // Create second chance array.
+    // Can also be a byte array for optimizing memory
+    bool second_chance[capacity];
+     
+
+     
+    for(i = 0; i < n; i++)
+    {
+        x = pages[i];
+         
+        // Finds if there exists a need to replace
+        // any page at all
+        if(!findAndUpdate(x,arr,second_chance,capacity))
+        {
+            // Selects and updates a victim page
+            pointer = replaceAndUpdate(x,arr,
+                    second_chance,capacity,pointer);
+             
+            // Update page faults
+            pf++;
+        }
+    }
+    return pf;
+}
+
 int pageFaultsFifo(int pages[], int n, int capacity)
 {
 
@@ -189,12 +288,31 @@ int pageFaultsFifo(int pages[], int n, int capacity)
 
 int main()
 {
+    cout << "\nAdott lapok 3 memoria igennyel(FIFO/LRU/OPT/SC)" << endl;
     int pages[] = {7, 6, 5, 4, 6, 7, 3, 2, 6, 7, 6, 5, 1, 2, 5, 6, 7, 6, 5, 2};
     int n = sizeof(pages) / sizeof(pages[0]);
-    int capacity = 4; // memoria keret
+    int capacity = 3; // memoria keret
     cout << pageFaultsFifo(pages, n, capacity) << endl;
     cout << pageFaultsLRU(pages, n, capacity) << endl;
     cout << pageFaultsOPT(pages, n, capacity) << endl;
+    cout << pageFaultsSC(pages, n, capacity) << endl;
+
+    cout << "\nUgyan az 4 memoria igennyel" << endl;
+    capacity = 4; 
+    cout << pageFaultsFifo(pages, n, capacity) << endl;
+    cout << pageFaultsLRU(pages, n, capacity) << endl;
+    cout << pageFaultsOPT(pages, n, capacity) << endl;
+    cout << pageFaultsSC(pages, n, capacity) << endl;
+
+
+    cout << "\nMas lapok 3 memoria igennyel" << endl;
+    int pages2[] = {7, 0, 1, 2, 0, 3, 0, 4, 2, 3, 0, 3, 2, 1, 2, 0, 1, 7, 0, 1};
+    n = sizeof(pages2) / sizeof(pages2[0]);
+    capacity = 3; 
+    cout << pageFaultsFifo(pages2, n, capacity) << endl;
+    cout << pageFaultsLRU(pages2, n, capacity) << endl;
+    cout << pageFaultsOPT(pages2, n, capacity) << endl;
+    cout << pageFaultsSC(pages2, n, capacity) << endl;
 
     return 0;
 }
