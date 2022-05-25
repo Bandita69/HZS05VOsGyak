@@ -15,7 +15,7 @@ public:
     time_t start_AT = 0, AT = 0,
            BT_left = 0, BT = 0, temp_BT = 0,
            CT = 0, TAT = 0, WT = 0, RT = 0;
-    int priority = 0;
+    int priority = 1;
 
     // Befejezesi ido
     void set_CT(time_t time)
@@ -49,13 +49,10 @@ public:
     }
 
     // '<' Operator tulterhelese
-    // mivel az erkezesi idonek nagyobb a prioritasa
-    // priority_queue elsonek poppolja a nagyobb erteket
-    // ezert ki kell csereni a '<' -t '>' hogy a legkisebbet poppolja
-    friend bool operator<(const process &a, const process &b)
+     friend bool operator<(const process &a, const process &b)
     {
-        return a.AT > b.AT;
-    }
+        return a.AT >= b.AT;
+    } 
 };
 
 process pop_index(priority_queue<process> *main_queue, int index)
@@ -282,7 +279,7 @@ priority_queue<process> set_process_data()
     scanf("%d", &NOP);
     for (i = 0; i < NOP; i++)
     {
-        printf("\n Adja meg az Erkezesi idot, a CPU idejet valamint a prioritast a process:[%d] -nek \n", i + 1);
+        printf("\n Adja meg az Erkezesi idot es a CPU idejet a process:[%d] -nek \n", i + 1);
         printf(" Erkezesi ido: \t");
         scanf("%d", &temp.AT);
         printf(" \n Cpu ido: \t");
